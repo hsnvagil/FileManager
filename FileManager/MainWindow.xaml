@@ -1,0 +1,128 @@
+﻿<Window x:Class="FileManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="File Manager" Height="450" Width="800">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedIndex}" Value="0">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0" Height="25">
+            <MenuItem Header="File" Height="25">
+                <MenuItem Header="About" Click="AboutBtn_OnClick" />
+                <MenuItem Header="Exit" Click="ExitBtn_OnClick" />
+            </MenuItem>
+            <MenuItem Header="History" Height="25">
+                <ListView Name="HistoryCollection" />
+            </MenuItem>
+            <MenuItem Header="View" Height="25">
+                <MenuItem Header="Show ReadOnly Items" IsCheckable="True" IsChecked="{Binding ShowReadOnlyFiles}"
+                          Unchecked="MenuItem_OnUnchecked1" Checked="MenuItem_OnChecked1" />
+                <MenuItem Header="Show Hidden Items" IsCheckable="True" IsChecked="{Binding ShowHiddenFiles}"
+                          Unchecked="MenuItem_OnUnchecked" Checked="MenuItem_OnChecked" />
+            </MenuItem>
+        </Menu>
+
+        <Grid Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+
+                <ComboBox Name="ComboBox" Grid.Row="0" Margin="3" SelectionChanged="ComboBox_OnSelectionChanged" />
+                <ListView Name="ListView" Grid.Row="1" Margin="3" SelectedIndex="{Binding SelectedIndex}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <EventSetter Event="MouseDoubleClick" Handler="EventSetter_OnHandler" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Open folder in file explorer" Click="OpenFileExp_OnClick" />
+                            <MenuItem Header="Refresh" Click="Refresh_OnClick" />
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                </ListView>
+                <Label Grid.Row="2" Margin="3 0" Foreground="Black">
+                    <Label.Content>
+                        <AccessText TextWrapping="Wrap" Text="{Binding LeftItemPath}" />
+                    </Label.Content>
+                </Label>
+            </Grid>
+
+            <Grid Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+
+                <ComboBox Name="ComboBox2" Margin="3" Grid.Row="0" SelectionChanged="ComboBox2_OnSelectionChanged" />
+                <ListView Name="ListView2" Margin="3" Grid.Row="1" SelectedIndex="{Binding SelectedIndex2}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <EventSetter Event="MouseDoubleClick" Handler="EventSetter_OnHandler2" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+                <Label Grid.Row="2" Margin="3 0" Foreground="Black">
+                    <Label.Content>
+                        <AccessText TextWrapping="Wrap" Text="{Binding RightItemPath}" />
+                    </Label.Content>
+                </Label>
+            </Grid>
+        </Grid>
+
+        <Grid Row="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0" Grid.Column="0" Height="25" Margin="3" Content="Copy" Click="CopyBtn_OnClick" />
+            <Button Grid.Row="0" Grid.Column="1" Height="25" Margin="3" Content="Move" Click="MoveBtn_OnClick" />
+            <Button Grid.Row="0" Grid.Column="2" Height="25" Margin="3" Content="Delete" Click="DeleteBtn_OnClick" />
+            <Button Grid.Row="0" Grid.Column="3" Height="25" Margin="3" Content="Rename" Click="RenameBtn_OnClick" />
+            <Button Grid.Row="1" Grid.Column="0" Height="25" Margin="3" Content="Size" Click="SizeBtn_OnClick" />
+            <Button Grid.Row="1" Grid.Column="1" Height="25" Margin="3" Content="Encrypt" Click="EncryptBtn_OnClick" />
+            <Button Grid.Row="1" Grid.Column="2" Height="25" Margin="3" Content="Decrypt" Click="DecryptBtn_OnClick" />
+            <Button Grid.Row="1" Grid.Column="3" Height="25" Margin="3" Content="Info" />
+
+        </Grid>
+
+    </Grid>
+</Window>
